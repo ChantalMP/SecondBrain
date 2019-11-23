@@ -32,7 +32,7 @@ def send_json_post_api_requests(url:str, querystring:Dict[str, str], subscribtio
                              data=payload,
                              headers=headers, params=querystring)
 
-    return response.text
+    return response.status_code, response.text
 
 def send_json_get_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str):
 
