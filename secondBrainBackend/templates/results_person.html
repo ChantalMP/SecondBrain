@@ -21,13 +21,12 @@
 
 <section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-    <h2> Resulting person </h2>
-    <h4> Name {{ name }} </h4>
+    <h2> {{ name }} </h2>
     <br>
-    <img src="{% static  image_path  %}" alt="My image" width="100%" >
-    <h4> Phone: {{ phone }} </h4> <br>
-    <h4> Address: {{ address }} </h4> <br>
-    <h4> Tags: {{ tags }} </h4> <br>
+    <img src="{% static  image_path  %}" alt="My image" width="100%">
+        <h3> <font size="+2"> <pre>Phone: {{ phone }}</pre> </font> </h3>
+        <h3> <font size="+2"> <pre>Address: {{ address }}</pre> </font></h3>
+        <h3> <font size="+2"><pre>Tags: {% for tag in tags %} {{tag}}{% endfor %}</pre></font></h3>
 
     <br>
     <br>
