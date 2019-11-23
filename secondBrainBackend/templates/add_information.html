@@ -5,7 +5,7 @@
     <title>Add Person</title>
 </head>
 <body>
-    <h3> Add information</h3>
+    <h2> Add information</h2>
     <form action="/add_information/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
     <label for="info_title">Title: </label>
@@ -20,12 +20,11 @@
     <input id="tags" type="text" name="tags" value="{{ tags }}">
     <br>
 
-
     <h4>Upload a picture:</h4>
     <input id="id_image" type="file" class="" name="image">
     <br>
-        
-    <input type="submit" value="Add">
+    <br>
+    <input type="submit" value="Add Person">
     </form>
 </body>
 </html>
