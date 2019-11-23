@@ -2,7 +2,7 @@ import requests
 
 from typing import Dict
 
-def send_binary_api_requests(url:str,querystring:Dict[str,str],subscribtion_key:str,img_url:str):
+def send_binary_api_requests(url:str, querystring:Dict[str,str], subscribtion_key:str, data_url:str):
 
 
     headers = {
@@ -10,16 +10,17 @@ def send_binary_api_requests(url:str,querystring:Dict[str,str],subscribtion_key:
         'Content-Type': "application/octet-stream",
     }
 
-    data = open('{}'.format(img_url), 'rb').read()
+    data = open('{}'.format(data_url), 'rb').read()
 
     response = requests.post(url=url,
                              data=data,
                              headers=headers, params=querystring)
 
+    print(response.status_code)
     print(response.text)
 
 
-def send_json_api_requests(url:str,querystring:Dict[str,str],subscribtion_key:str,payload:str):
+def send_json_post_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str, payload:str):
 
 
     headers = {
@@ -32,4 +33,20 @@ def send_json_api_requests(url:str,querystring:Dict[str,str],subscribtion_key:st
                              data=payload,
                              headers=headers, params=querystring)
 
+    print(response.status_code)
+    print(response.text)
+
+def send_json_get_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str):
+
+
+    headers = {
+        'Ocp-Apim-Subscription-Key': '{}'.format(subscribtion_key),
+        'Content-Type': "application/json",
+    }
+
+
+    response = requests.get(url=url,
+                             headers=headers, params=querystring)
+
+    print(response.status_code)
     print(response.text)
