@@ -25,6 +25,7 @@ from apis.text_api.sendText import get_tags_for_text
 
 from secondBrainBackend.utils import get_matching_information
 
+
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
     template = loader.get_template('index.html')
@@ -159,7 +160,6 @@ class AddInformation(TemplateView):
 
 
 class IdentifyPerson(TemplateView):
-
     template_name = 'identify_person.html'
 
     # TODO post or get
@@ -177,7 +177,6 @@ class IdentifyPerson(TemplateView):
 
         except Exception as e:
             recording = None
-
 
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
@@ -217,8 +216,8 @@ class IdentifyPerson(TemplateView):
         print(image_path)
         return HttpResponse(template.render(context, request))
 
+
 class ResultsPerson(TemplateView):
-    
     template_name = 'results_person.html'
 
     # TODO post or get
@@ -258,35 +257,53 @@ class SearchTags(TemplateView):
 
         result_list = get_matching_information(all_tags)
 
-        informations = [elem[0] for elem in result_list]
+        results_list_filtered = [elem[0] for elem in result_list]
 
-        parsed = []
+        parsed_informations = []
+        parsed_persons = []
 
-        for information in informations:
-            information_dict = {}
-            information_dict['title'] = information.title
-            datas = []
+        for elem in results_list_filtered:
+            if isinstance(elem, Information):
+                information = elem
+                information_dict = {}
+                information_dict['title'] = information.title
+                datas = []
 
-            for data in information.data.all():
-                data_dict = {}
-                if data.path is not None:
-                    image_path = data.path.split('/')
+                for data in information.data.all():
+                    data_dict = {}
+                    if data.path is not None:
+                        image_path = data.path.split('/')
+                        image_path = image_path[2] + '/' + image_path[3]
+                        data_dict['image_path'] = image_path
+                    else:
+                        data_dict['image_path'] = None
+                    data_dict['text'] = data.text
+
+                    datas.append(data_dict)
+
+                information_dict['datas'] = datas
+
+                parsed_informations.append(information_dict)
+
+            else:
+                person = elem
+                person_dict = {}
+                person_dict['name'] = person.name
+
+                if person.image_path is not None:
+                    image_path = person.image_path.split('/')
                     image_path = image_path[2] + '/' + image_path[3]
-                    data_dict['image_path'] = image_path
+                    person_dict['image_path'] = image_path
                 else:
-                    data_dict['image_path'] = None
-                data_dict['text'] = data.text
+                    person_dict['image_path'] = None
 
-                datas.append(data_dict)
+                person_dict['address'] = person.address
+                person_dict['phone'] = person.phone
 
-            information_dict['datas'] = datas
-
-            parsed.append(information_dict)
-
-
+                parsed_persons.append(person_dict)
 
         template = loader.get_template('result_tags.html')
-        context = {"results": parsed}
+        context = {"results_informations": parsed_informations, "results_persons": parsed_persons}
         return HttpResponse(template.render(context, request))
 
 
