@@ -79,7 +79,7 @@ def get_matching_information(tags, only_persons=False):
     if only_persons:
         res = 1
     else:
-        res = 5
+        res = 3
     return sorted_results[:res]
 
 
