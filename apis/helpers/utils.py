@@ -34,6 +34,20 @@ def send_json_post_api_requests(url:str, querystring:Dict[str, str], subscribtio
 
     return response.status_code, response.text
 
+def send_json_post_api_train():
+
+
+    headers = {
+        'Ocp-Apim-Subscription-Key': '{}'.format("15262392d8164ba3bb431da6b0c11f42"),
+    }
+
+    url = "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/persondatabase/train"
+    response = requests.post(url=url,
+                             data={},
+                             headers=headers, params={})
+
+    return response.status_code, response.text
+
 def send_json_get_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str):
 
 
@@ -48,3 +62,4 @@ def send_json_get_api_requests(url:str, querystring:Dict[str, str], subscribtion
 
 
     return response.status_code, response.text
+
