@@ -1,8 +1,3 @@
-from decimal import Decimal
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
 
 import random
 import string
@@ -18,7 +13,7 @@ from django.conf import settings
 from secondBrainBackend.models import Person, Information, Data, Tag
 
 import apis.face_api.identify as faceAPI
-import apis.speaker_recognition.identify as speechAPI
+import apis.helpers.utils as utils
 
 from apis.image_tagging.image_tagging import get_tags_for_image
 from apis.text_api.sendText import get_tags_for_text
@@ -178,6 +173,19 @@ class IdentifyPerson(TemplateView):
         except Exception as e:
             recording = None
 
+        try:
+            tags = request.POST['tags']
+
+        except Exception as e:
+            tags = None
+
+        if ',' in tags:
+            tags = tags.split(',')
+        elif len(tags) > 0:
+            tags = [tags]
+        else:
+            tags = []
+
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
             image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name, image)
@@ -197,6 +205,12 @@ class IdentifyPerson(TemplateView):
 
             audio_id = utils.identify_by_speech(recording_path)
             id = Person.objects.get(speech_id=audio_id).id
+
+        elif len(tags) > 0:
+
+            result_list = get_matching_information(tags)
+            results_list_filtered = [elem[0] for elem in result_list]
+            id = results_list_filtered[0].id
 
         person_name = Person.objects.get(id=id).name
         person_phone = Person.objects.get(id=id).phone

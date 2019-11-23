@@ -28,7 +28,7 @@ nlp = None
 
 # nlp = spacy.load("en_core_web_md") # TODO activate for presentation
 
-def get_matching_information(tags):
+def get_matching_information(tags, only_persons=False):
     global nlp
     if nlp is None:
         nlp = spacy.load("en_core_web_md")
@@ -37,27 +37,28 @@ def get_matching_information(tags):
 
     tokens = nlp(' '.join(tags))
 
-    for information in Information.objects.all():
-        information_tags = [elem.text for elem in information.tags.all()]
-        information_tokens = nlp(' '.join(information_tags))
-        total_similarity = 0.0
-        count = 0.0
+    if not only_persons:
+        for information in Information.objects.all():
+            information_tags = [elem.text for elem in information.tags.all()]
+            information_tokens = nlp(' '.join(information_tags))
+            total_similarity = 0.0
+            count = 0.0
 
-        for token in tokens:
-            best_similarity = -1
-            for information_token in information_tokens:
-                similarity = token.similarity(information_token)
+            for token in tokens:
+                best_similarity = -1
+                for information_token in information_tokens:
+                    similarity = token.similarity(information_token)
 
-                if similarity > best_similarity:
-                    best_similarity = similarity
+                    if similarity > best_similarity:
+                        best_similarity = similarity
 
-            total_similarity += best_similarity
+                total_similarity += best_similarity
 
-            if best_similarity >= 0:
-                count += 1
+                if best_similarity >= 0:
+                    count += 1
 
-        if count > 0.1:
-            results[information] = total_similarity / count
+            if count > 0.1:
+                results[information] = total_similarity / count
 
     for person in Person.objects.all():
         person_tags = [elem.text for elem in person.tags.all()]
@@ -82,8 +83,11 @@ def get_matching_information(tags):
             results[person] = total_similarity / count
 
     sorted_results = sorted(results.items(), key=lambda kv: kv[1], reverse=True)
-
-    return sorted_results[:5]
+    if only_persons:
+        res = 1
+    else:
+        res = 5
+    return sorted_results[:res]
 
 
 def process_input(raw_data, informations, data_type='tag'):
