@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import ImageData,NoteData
+from .models import Data
 
-admin.site.register(NoteData)
+admin.site.register(Data)
