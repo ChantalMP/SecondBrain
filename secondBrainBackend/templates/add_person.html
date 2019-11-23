@@ -5,22 +5,33 @@
     <title>Add Person</title>
 </head>
 <body>
-
-    <form action="/add_person/" method="post">{% csrf_token %}
+<h2>Add Person</h2>
+    <form action="/add_person/" method="post" enctype="multipart/form-data">{% csrf_token %}
     <label for="your_name">Your name: </label>
+    <br>
     <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-    <input type="submit" value="OK">
+    <br>
+
+    <br>
+    <label for="your_adress">Your Adress: </label>
+    <br>
+    <input id="your_adress" type="text" name="your_adress" value="{{ current_adress }}">
+    <br>
+
+
+    <br>
+    <label for="tags">Enter some tags: </label>
+    <br>
+    <input id="tags" type="text" name="tags" value="{{ tags }}">
+    <br>
+
+    <br>
+    <h4>Upload a picture:</h4>
+    <input id="id_image" type="file" class="" name="image">
+    <br>
+    <br>
     </form>
 
-    <main>
-    <h2>Schicken Sie uns was Schickes!</h2>
-    <form method="post" enctype="multipart/form-data">
-        <label> Wählen Sie eine Textdatei (*.txt, *.html usw.) von Ihrem Rechner aus.
-            <input name=“file”
-                   type="file" size="50" accept="text/*"> </label>
-        <button>upload!</button>
-    </form>
-    </main>
-    Add Person
+    <input type="submit" value="Add Person">
 </body>
 </html>
