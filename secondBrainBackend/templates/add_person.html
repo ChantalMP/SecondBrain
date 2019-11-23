@@ -11,6 +11,16 @@
     <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
     <input type="submit" value="OK">
     </form>
+
+    <main>
+    <h2>Schicken Sie uns was Schickes!</h2>
+    <form method="post" enctype="multipart/form-data">
+        <label> Wählen Sie eine Textdatei (*.txt, *.html usw.) von Ihrem Rechner aus.
+            <input name=“file”
+                   type="file" size="50" accept="text/*"> </label>
+        <button>upload!</button>
+    </form>
+    </main>
     Add Person
 </body>
 </html>

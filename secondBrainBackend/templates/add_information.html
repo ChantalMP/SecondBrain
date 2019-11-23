@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Info</title>
+    <title>Add Person</title>
 </head>
 <body>
-    Add Info
+    <h3> Add information</h3>
+    <form action="/add_information/" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+    <label for="info_title">Title: </label>
+    <input id="info_title" type="text" name="info_title" value="{{ info_title }}">
+    <br>
+
+    <label for="note">Enter a note: </label>
+    <input id="note" type="text" name="note" value="{{ note }}">
+    <br>
+
+    <label for="tags">Enter some tags: </label>
+    <input id="tags" type="text" name="tags" value="{{ tags }}">
+    <br>
+
+
+    <h4>Upload a picture:</h4>
+    <input id="id_image" type="file" class="" name="image">
+    <br>
+        
+    <input type="submit" value="Add">
+    </form>
 </body>
 </html>
