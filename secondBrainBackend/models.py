@@ -66,6 +66,7 @@ class Person(models.Model):
 
 
 class Information(models.Model):
+    title = models.CharField(max_length=256, null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='information')
     # TODO This becomes foreign key, make sure it works correcly
     # TODO TITLE and is also a tag

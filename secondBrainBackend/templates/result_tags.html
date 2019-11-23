@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,11 +10,20 @@
     <h2> Add information</h2>
     <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
-    {% if list %}
-    Here are your {{ list|length }} most important matches:
-    {% for e in list %}
+    {% if results %}
+    Here are your {{ results|length }} most important matches:
+    {% for e in results %}
       <h3> {{ e.title }} </h3>
-      <td> {{ e.text }} </td>
+      {% for d in e.datas %}
+          {% if d.image_path %}
+            <img width="500" src="{% static d.image_path %}" alt="My image">
+          {% endif %}
+          <br>
+          {% if d.text %}
+            <h3> {{ d.text }} </h3>
+          {% endif %}
+      <hr>
+      {% endfor %}
       <hr>
     {% endfor %}
     {% else %}
