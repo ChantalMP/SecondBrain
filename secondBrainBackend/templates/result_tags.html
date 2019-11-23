@@ -5,8 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Search information</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
 </head>
 <body>
+
+<!-- PRE LOADER -->
+<section class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate"></span>
+    </div>
+</section>
+<section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
     <h2> Add information</h2>
     <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
@@ -30,5 +41,16 @@
        We couldn't find any matches.
     {% endif %}
     </form>
+    </div>
+</section>
+
+<!-- SCRIPTS -->
+    {% load static %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 </body>
 </html>
