@@ -15,7 +15,7 @@ from django.core.files.storage import FileSystemStorage
 
 from django.conf import settings
 
-from  secondBrainBackend.models import Person,Information,ImageData,NoteData
+from  secondBrainBackend.models import Person,Information,Data
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -101,14 +101,15 @@ class AddInformation(TemplateView):
 
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
-            image_path = save_file(settings.IMAGES_STORAGE_PATH, image_name,image)
+            image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name,image)
+            image_path = '{}/{}'.format(settings.IMAGES_STORAGE_PATH,image_name)
 
-            image_data = ImageData.objects.create(path=image_path)
+            image_data = Data.objects.create(data_type='image',path=image_path)
 
             info.data.add(image_data)
 
         if len(text) > 0 :
-            note_data = NoteData.objects.create(text=text)
+            note_data = Data.objects.create(data_type='text',text=text)
 
             info.data.add(note_data)
 

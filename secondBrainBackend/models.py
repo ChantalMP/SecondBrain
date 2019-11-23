@@ -63,7 +63,7 @@ class Information(models.Model):
             # TODO test this
             # TODO make sure no dublicates are getting created
             for additional_tag in additional_tags:
-                new_tag = Tag.objects.get_or_create(additional_tag)
+                new_tag,_ = Tag.objects.get_or_create(text=additional_tag)
                 self.tags.add(new_tag)
 
 
@@ -84,40 +84,19 @@ class Information(models.Model):
 
 class Data(models.Model):
     information = models.ForeignKey(Information, on_delete=models.CASCADE,related_name='data',null=True)
-
-
-    @abstractmethod
-    def get_tags(self):
-        pass
-
-    @abstractmethod
-    def __str__(self):
-        pass
-
-
-
-class ImageData(Data):
-    path = models.CharField(max_length=256)
+    # TODO instead of using ImageData and NoteData, do everything here
+    data_type = models.CharField(max_length=256) # image or text
+    path = models.CharField(max_length=256,null=True,blank=True)
+    text = models.CharField(max_length=256,null=True,blank=True)
 
     def get_tags(self):
-        return get_tags_for_image(self.path)
+        if self.data_type == 'image':
+            return get_tags_for_image(self.path)
+        else:
+            return get_tags_for_text(self.text)
 
     def __str__(self):
-        return self.path
-
-    def __repr__(self):
-        return self.path
-
-
-class NoteData(Data):
-    # TODO make area
-    text = models.CharField(max_length=256)
-
-    def get_tags(self):
-        return get_tags_for_text(self.text)
-
-    def __str__(self):
-        return self.text
-
-    def __repr__(self):
-        return self.text
+        if self.data_type == 'image':
+            return self.path
+        else:
+            return self.text
