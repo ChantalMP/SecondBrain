@@ -27,6 +27,7 @@ class Person(models.Model):
     phone = models.CharField(max_length=256)
     recording_path = models.CharField(max_length=256)
 
+    # TODO test this save method
     def save(self, *args, **kwargs):
         tagging_needed = False
         if not self.pk:
@@ -37,10 +38,14 @@ class Person(models.Model):
 
         super(Person, self).save(*args, **kwargs)
 
-        # Handle azure cases
-        self.image_id = face_detect.get_person_id(self.image_path)
-        self.image_id = create_profile.create_person()
-        create_enrollment.add_enrollment(self.recording_path)
+
+        if tagging_needed:
+            # Handle azure cases
+            self.image_id = face_detect.get_person_id(self.image_path)
+            self.speech_id = create_profile.create_person()
+            create_enrollment.add_enrollment(self.recording_path)
+
+            self.save()
 
     def __str__(self):
         string = "person_id: {}\n \
@@ -131,7 +136,9 @@ class Information(models.Model):
             # have pk
 
         super(Information, self).save(*args, **kwargs)
-        self.get_additional_tags()
+        if tagging_needed:
+            self.get_additional_tags()
+            self.save()
 
     def __str__(self):
         return str(self.data) + str(self.tags)
