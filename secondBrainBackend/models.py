@@ -4,7 +4,7 @@ from abc import abstractmethod
 
 from apis.image_tagging.image_tagging import get_tags_for_image
 from apis.text_api.sendText import get_tags_for_text
-from apis.face_api import detect as face_detect
+from apis.face_api import identify as face_identify
 from apis.speaker_recognition import create_enrollment, create_profile
 
 import numpy as np
@@ -40,7 +40,8 @@ class Person(models.Model):
 
         if auto_tagging:
             # Handle azure cases
-            self.image_id = face_detect.get_person_id(self.image_path)
+            self.image_id = face_identify.create_peson(self.name)
+            face_identify.add_image_to_person(self.image_id, self.image_path)
             self.speech_id = create_profile.create_person()
             create_enrollment.add_enrollment(self.recording_path,self.speech_id)
             # TODO

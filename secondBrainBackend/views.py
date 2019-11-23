@@ -169,14 +169,6 @@ class IdentifyPerson(TemplateView):
         except Exception as e:
             recording = None
 
-        tags = request.POST['tags']
-
-        if ',' in tags:
-            tags = tags.split(',')
-        elif len(tags) > 0:
-            tags = [tags]
-        else:
-            tags = []
 
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
@@ -189,6 +181,7 @@ class IdentifyPerson(TemplateView):
 
             image_id = faceAPI.identify(image_path)
             person_name = Person.objects.get(image_id=image_id).name
+            image_path = Person.objects.get(image_id=image_id).image_path.split('/')
 
         elif recording is not None:
             recording_name = '{}.wav'.format(random_name_prefix)
@@ -197,11 +190,13 @@ class IdentifyPerson(TemplateView):
 
             audio_id = speechAPI.identify(recording_path)
             person_name = Person.objects.get(audio_id=audio_id).name
-
-
+            image_path = Person.objects.get(audio_id=audio_id).image_path.split('/')
+        image_path = image_path[2]+'/'+image_path[3]
         template = loader.get_template('results_person.html')
-        context = {"name":person_name
+        context = {"name":person_name,
+                   "image_path": image_path
         }
+        print(image_path)
         return HttpResponse(template.render(context, request))
 
 class ResultsPerson(TemplateView):
