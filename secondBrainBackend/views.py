@@ -173,7 +173,6 @@ class AddInformation(TemplateView):
 class IdentifyPerson(TemplateView):
     template_name = 'identify_person.html'
 
-    # TODO post or get
     def post(self, request, *args, **kwargs):
         try:
             random_name_prefix = random_name()
