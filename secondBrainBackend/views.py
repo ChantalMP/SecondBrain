@@ -121,14 +121,19 @@ class AddInformation(TemplateView):
 
 
 class IdentifyPerson(TemplateView):
+
     template_name = 'identify_person.html'
 
     # TODO post or get
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+
+        template = loader.get_template('results_person.html')
+        context = {"name":"name1"
+        }
+        return HttpResponse(template.render(context, request))
 
 class ResultsPerson(TemplateView):
-    template_name =  'results_person.html'
+    template_name = 'results_person.html'
 
     # TODO post or get
     def get(self, request, *args, **kwargs):
