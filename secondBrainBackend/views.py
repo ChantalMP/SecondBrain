@@ -13,7 +13,7 @@ from django.conf import settings
 from secondBrainBackend.models import Person, Information, Data, Tag
 
 import apis.face_api.identify as faceAPI
-import apis.helpers.utils as utils
+from secondBrainBackend import utils
 
 from apis.image_tagging.image_tagging import get_tags_for_image
 from apis.text_api.sendText import get_tags_for_text

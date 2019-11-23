@@ -4,7 +4,6 @@ import json
 
 url = "https://westus.api.cognitive.microsoft.com/face/v1.0/detect"
 
-image = 'apis/face_api/images/IMG_2630.jpg'
 
 querystring = {"returnFaceId": "true", "returnFaceLandmarks": "false", "recognitionModel": "recognition_02", "returnRecognitionModel": "True",
                "detectionModel": "detection_01"}
