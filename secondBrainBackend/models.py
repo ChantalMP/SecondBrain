@@ -16,6 +16,12 @@ import numpy as np
 class Tag(models.Model):
     text = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.text
+
+    def __repr__(self):
+        return self.text
+
 
 class Person(models.Model):
     # TODO name should be tag
@@ -36,7 +42,8 @@ class Person(models.Model):
             # Handle azure cases
             self.image_id = face_detect.get_person_id(self.image_path)
             self.speech_id = create_profile.create_person()
-            create_enrollment.add_enrollment(self.recording_path)
+            create_enrollment.add_enrollment(self.recording_path,self.speech_id)
+            # TODO
 
             self.save()
 
@@ -46,6 +53,14 @@ class Person(models.Model):
                  image_id: {} \n \
                  tags: {} \n \
                  name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
+        return string
+
+    def __repr__(self):
+        string = "person_id: {}\n \
+                         speech_id: {} \n \
+                         image_id: {} \n \
+                         tags: {} \n \
+                         name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
         return string
 
 
