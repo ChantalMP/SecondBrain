@@ -8,5 +8,8 @@ url = "https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfil
 data_url = 'speaker_recognition/audios/recording_train.wav'
 querystring = {}
 
-send_binary_api_requests(url,querystring,'24e9de72f0cc4a27a3d2b4afd43f755f',data_url)
+
+def add_enrollment(recording):
+    send_binary_api_requests(url, querystring, '24e9de72f0cc4a27a3d2b4afd43f755f', recording)
+
 

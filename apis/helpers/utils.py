@@ -16,7 +16,7 @@ def send_binary_api_requests(url:str, querystring:Dict[str,str], subscribtion_ke
                              data=data,
                              headers=headers, params=querystring)
 
-    return dict(response.headers)
+    return dict(response.headers), response.text
 
 
 def send_json_post_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str, payload:str):
@@ -32,8 +32,7 @@ def send_json_post_api_requests(url:str, querystring:Dict[str, str], subscribtio
                              data=payload,
                              headers=headers, params=querystring)
 
-    print(response.status_code)
-    print(response.text)
+    return response.status_code, response.text
 
 def send_json_get_api_requests(url:str, querystring:Dict[str, str], subscribtion_key:str):
 
