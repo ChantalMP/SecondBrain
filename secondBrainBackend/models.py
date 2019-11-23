@@ -18,6 +18,7 @@ class Tag(models.Model):
 
 
 class Person(models.Model):
+    # TODO name should be tag
     speech_id = models.CharField(max_length=256)
     image_id = models.CharField(max_length=256)
     image_path = models.CharField(max_length=256)
@@ -92,7 +93,10 @@ class NoteData(Data):
 
 class Information(models.Model):
     tags = models.ManyToManyField(Tag, related_name='information')
+    # This becomes foreign key, make sure it works correcly
     data = models.OneToOneField(Data, on_delete=models.CASCADE)
+    # TODO TITLE and is also a tag
+    # TODO compare tags should also be tag
 
     def get_additional_tags(self):
         additional_tags = self.data.get_tags()

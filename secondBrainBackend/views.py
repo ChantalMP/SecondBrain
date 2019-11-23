@@ -23,6 +23,8 @@ class AddPerson(TemplateView):
     # TODO post
     def post(self, request, *args, **kwargs):
         name = request.POST['your_name']
+        # TODO save image in a certain location with random name
+        # TODO recording saving
         # TODO here would be a call to generate a corresponding person in database
 
 class AddInformation(TemplateView):
@@ -36,7 +38,17 @@ class IdentifyPerson(TemplateView):
 
     # TODO post or get
 
-class SearchInformation(TemplateView):
-    template_name =  'search_information.html'
+class ResultsPerson(TemplateView):
+    template_name =  'results_person.html'
+
+    # TODO post or get
+
+class SearchTags(TemplateView):
+    template_name =  'search_tags.html'
+
+    # TODO post or get
+
+class ResultTags(TemplateView):
+    template_name =  'result_tags.html'
 
     # TODO post or get
