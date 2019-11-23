@@ -19,6 +19,7 @@ from apis.text_api.sendText import get_tags_for_text
 
 from secondBrainBackend.utils import get_matching_information
 
+from apis.helpers.utils import send_json_post_api_train
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -102,6 +103,8 @@ class AddPerson(TemplateView):
                 person.save()
 
             person.save(auto_tagging=True)
+
+            send_json_post_api_train()
 
             template = loader.get_template('success.html')
             return HttpResponse(template.render({}, request))
