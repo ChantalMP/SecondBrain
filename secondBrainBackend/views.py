@@ -17,6 +17,7 @@ from django.conf import settings
 
 from secondBrainBackend.models import Person, Information, Data, Tag
 
+from apis.face_api.identify import identify
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -149,17 +150,39 @@ class AddInformation(TemplateView):
 
 
 class IdentifyPerson(TemplateView):
+
     template_name = 'identify_person.html'
 
     # TODO post or get
     def post(self, request, *args, **kwargs):
+        random_name_prefix = random_name(10)
+        try:
+            image = request.FILES['image']
+
+        except Exception as e:
+            image = None
+        info = Information.objects.create()
+
+        if image is not None:
+            image_name = '{}.jpg'.format(random_name_prefix)
+            image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name, image)
+            image_path = '{}/{}'.format(settings.IMAGES_STORAGE_PATH, image_name)
+
+            image_data = Data.objects.create(data_type='image', path=image_path)
+
+            info.data.add(image_data)
+
+            image_id = identify(image_path)
+
+        person_name = Person.objects.get(image_id=image_id).name
+
         template = loader.get_template('results_person.html')
-        context = {"name": "name1"
-                   }
+        context = {"name":person_name
+        }
         return HttpResponse(template.render(context, request))
 
-
 class ResultsPerson(TemplateView):
+    
     template_name = 'results_person.html'
 
     # TODO post or get

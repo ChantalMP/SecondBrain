@@ -14,8 +14,8 @@ def identify(image):
     querystring = {}
     body = r'{"personGroupId":"persondatabase", "faceIds":["' + person_id + r'"], "maxNumOfCandidatesReturned":1}'
     code, text = send_json_post_api_requests(url, querystring, key, body)
-    print(code)
-    print(text)
+    return json.loads(text)[0]['candidates'][0]['personId']
+
 
 def create_peson(name):
     url = "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{}/persons".format(person_group_id)
@@ -28,8 +28,7 @@ def add_image_to_person(person_id, image):
     url = "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/persondatabase/persons/{}/persistedFaces".format(person_id)
     querystring = {}
     header, text = send_binary_api_requests(url, querystring, key, image)
-    print(header)
-    print(text)
+
 
 
 
