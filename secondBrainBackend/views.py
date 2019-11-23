@@ -368,6 +368,7 @@ class ShowPersons(TemplateView):
 
             person_dict['address'] = person.address
             person_dict['phone'] = person.phone
+            person_dict['tags'] = person.tags
 
             persons.append(person_dict)
         context = {"persons":persons}
