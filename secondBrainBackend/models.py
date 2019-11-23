@@ -74,7 +74,10 @@ class Information(models.Model):
             for additional_tag in additional_tags:
                 new_tag,_ = Tag.objects.get_or_create(text=additional_tag)
                 self.tags.add(new_tag)
-
+        if self.title:
+            for tag in self.title.split(' '):
+                new_tag, _ = Tag.objects.get_or_create(text=tag)
+                self.tags.add(new_tag)
 
     def save(self, auto_tagging=False,*args, **kwargs):
 

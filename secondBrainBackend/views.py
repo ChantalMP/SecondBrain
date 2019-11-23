@@ -80,6 +80,10 @@ class AddPerson(TemplateView):
         for tag in tags:
             new_tag, _ = Tag.objects.get_or_create(text=tag)
             person.tags.add(new_tag)
+            if name:
+                for part in name.split(' '):
+                    new_tag, _ = Tag.objects.get_or_create(text=part)
+                    person.tags.add(new_tag)
 
         person.save()
 
