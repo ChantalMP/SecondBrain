@@ -6,12 +6,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Results Person</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
 </head>
 <body>
+
+<!-- PRE LOADER -->
+<section class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate"></span>
+    </div>
+</section>
+
+<section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
     <h2> Resulting person </h2>
     <h4> Name {{ name }} </h4>
     <br>
     <img src="{% static  image_path  %}" alt="My image">
+    <h4> Phone: {{ phone }} </h4> <br>
+    <h4> Address: {{ address }} </h4> <br>
+    <h4> Tags: {{ tags }} </h4> <br>
+</div>
+</section>
 
+<!-- SCRIPTS -->
+    {% load static %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 </body>
 </html>

@@ -81,6 +81,10 @@ class AddPerson(TemplateView):
         for tag in tags:
             new_tag, _ = Tag.objects.get_or_create(text=tag)
             person.tags.add(new_tag)
+            if name:
+                for part in name.split(' '):
+                    new_tag, _ = Tag.objects.get_or_create(text=part)
+                    person.tags.add(new_tag)
 
         person.save()
 
@@ -160,7 +164,7 @@ class IdentifyPerson(TemplateView):
 
     # TODO post or get
     def post(self, request, *args, **kwargs):
-        random_name_prefix = random_name(10)
+        random_name_prefix = random_name()
         try:
             image = request.FILES['image']
 
@@ -184,22 +188,31 @@ class IdentifyPerson(TemplateView):
             info.data.add(image_data)
 
             image_id = faceAPI.identify(image_path)
-            person_name = Person.objects.get(image_id=image_id).name
-            image_path = Person.objects.get(image_id=image_id).image_path.split('/')
+            id = Person.objects.get(image_id=image_id).id
 
         elif recording is not None:
             recording_name = '{}.wav'.format(random_name_prefix)
             recording_name = save_file(settings.RECORDING_STORAGE_PATH, recording_name, recording)
             recording_path = '{}/{}'.format(settings.RECORDING_STORAGE_PATH, recording_name)
 
-            audio_id = speechAPI.identify(recording_path)
-            person_name = Person.objects.get(audio_id=audio_id).name
-            image_path = Person.objects.get(audio_id=audio_id).image_path.split('/')
-        image_path = image_path[2] + '/' + image_path[3]
+            audio_id = utils.identify_by_speech(recording_path)
+            id = Person.objects.get(speech_id=audio_id).id
+
+        person_name = Person.objects.get(id=id).name
+        person_phone = Person.objects.get(id=id).phone
+        person_address = Person.objects.get(id=id).address
+
+        person_tags = [elem.text for elem in Person.objects.get(id=id).tags.all()]
+
+        image_path = Person.objects.get(id=id).image_path.split('/')
+        image_path = image_path[2]+'/'+image_path[3]
         template = loader.get_template('results_person.html')
-        context = {"name": person_name,
-                   "image_path": image_path
-                   }
+        context = {"name":person_name,
+                   "image_path": image_path,
+                   "phone": person_phone,
+                   "address": person_address,
+                   "tags": person_tags
+        }
         print(image_path)
         return HttpResponse(template.render(context, request))
 
@@ -207,6 +220,7 @@ class IdentifyPerson(TemplateView):
 class ResultsPerson(TemplateView):
     template_name = 'results_person.html'
 
+    # TODO post or get
     def get(self, request, *args, **kwargs):
         template = loader.get_template('results_person.html')
         context = {}
