@@ -1,6 +1,4 @@
-import requests
-
-from helpers.utils import send_json_post_api_requests
+from apis.helpers.utils import send_json_post_api_requests
 
 url = "https://westus.api.cognitive.microsoft.com/face/v1.0/verify"
 

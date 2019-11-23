@@ -1,5 +1,4 @@
-import requests
-from helpers.utils import send_binary_api_requests
+from apis.helpers.utils import send_binary_api_requests
 
 
 profile_id = '0e80af90-bede-4006-932b-c3b3a2f64994'

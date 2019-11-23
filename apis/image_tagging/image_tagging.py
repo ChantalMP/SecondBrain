@@ -1,4 +1,4 @@
-import helpers.utils as utils
+import apis.helpers.utils as utils
 
 url = "https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze"
 image = 'images/10tipps_kleines_wohnzimmer_home24.jpg'

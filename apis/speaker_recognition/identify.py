@@ -1,6 +1,4 @@
-import requests
-
-from helpers.utils import send_binary_api_requests,send_json_get_api_requests
+from apis.helpers.utils import send_binary_api_requests,send_json_get_api_requests
 from time import sleep
 
 import json
