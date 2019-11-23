@@ -2,3 +2,6 @@ requests
 numpy
 Django==2.2.7
 djangorestframework
+spacy
+
+#python -m spacy download en_core_web_md

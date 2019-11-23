@@ -3,43 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Person</title>
+   {% load static %}
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
 </head>
 <body>
+
+<!-- PRE LOADER -->
+<section class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate"></span>
+    </div>
+</section>
+
+<section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
     <h2>Add Person</h2>
     <form action="/add_person/" method="post" enctype="multipart/form-data">{% csrf_token %}
         <label for="your_name">Your name: </label>
         <br>
-        <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+        <input id="your_name" type="text" class="form-control" name="your_name" value="{{ current_name }}">
         <br>
 
         <br>
         <label for="your_adress">Your Adress: </label>
         <br>
-        <input id="your_adress" type="text" name="your_adress" value="{{ current_adress }}">
+        <input id="your_adress" type="text" class="form-control" name="your_adress" value="{{ current_adress }}">
         <br>
 
         <br>
         <label for="your_phone">Your Phone: </label>
         <br>
-        <input id="your_phone" type="text" name="your_phone" value="{{ current_phone }}">
+        <input id="your_phone" type="text" class="form-control" name="your_phone" value="{{ current_phone }}">
         <br>
 
         <br>
         <label for="tags">Enter some tags: </label>
         <br>
-        <input id="tags" type="text" name="tags" value="{{ tags }}">
+        <input id="tags" type="text" class="form-control" name="tags" value="{{ tags }}">
         <br>
 
         <br>
         <h4>Upload a picture:</h4>
-        <input id="id_image" type="file" class="" name="image">
+        <input id="id_image" type="file" class="btn section-btn smoothScroll" class="" name="image">
         <br> <br>
 
         <h4> Choose a recording on your phone (*.wav): </h4>
-        <input id="id_audio" type="file" class="" name="audio">
+        <input id="id_audio" type="file" class="btn section-btn smoothScroll" class="" name="audio">
         <br> <br>
 
-        <input type="submit" value="Add Person">
+        <input type="submit" class="btn section-btn smoothScroll" value="Add Person">
     </form>
+    </div>
+</section>
+
+<!-- SCRIPTS -->
+    {% load static %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 </body>
 </html>
