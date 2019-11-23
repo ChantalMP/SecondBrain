@@ -10,9 +10,9 @@
     <h2> Add information</h2>
     <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
-    {% if results %}
-    Here are your {{ results|length }} most important matches:
-    {% for e in results %}
+    {% if results_informations %}
+    Here are your {{ results_informations|length }} most important information matches:
+    {% for e in results_informations %}
       <h3> {{ e.title }} </h3>
       {% for d in e.datas %}
           {% if d.image_path %}
@@ -27,8 +27,27 @@
       <hr>
     {% endfor %}
     {% else %}
-       We couldn't find any matches.
+       We couldn't find any information matches.
     {% endif %}
+
+    {% if results_persons %}
+    Here are your {{ results_persons|length }} most important person matches:
+    {% for e in results_persons %}
+      <h3> {{ e.name }} </h3>
+      {% if e.image_path %}
+        <img width="500" src="{% static e.image_path %}" alt="My image">
+      {% endif %}
+      <br>
+      <h3> {{ e.address }} </h3>
+      <br>
+      <h3> {{ e.phone }} </h3>
+      <hr>
+    {% endfor %}
+    {% else %}
+       We couldn't find any person matches.
+    {% endif %}
+
+
     </form>
 </body>
 </html>
