@@ -4,8 +4,51 @@ from abc import abstractmethod
 
 from apis.image_tagging.image_tagging import get_tags_for_image
 from apis.text_api.sendText import get_tags_for_text
+from apis.face_api import detect as face_detect
+from apis.speaker_recognition import create_enrollment, create_profile
 
 import numpy as np
+
+
+# class LocationData(Data):
+#         pass
+
+class Tag(models.Model):
+    text = models.CharField(max_length=256)
+
+
+class Person(models.Model):
+    speech_id = models.CharField(max_length=256)
+    image_id = models.CharField(max_length=256)
+    image_path = models.CharField(max_length=256)
+    tags = models.ManyToManyField(Tag, related_name='person')
+    name = models.CharField(max_length=256)
+    address = models.CharField(max_length=256)
+    phone = models.CharField(max_length=256)
+    recording_path = models.CharField(max_length=256)
+
+    def save(self, *args, **kwargs):
+        tagging_needed = False
+        if not self.pk:
+            tagging_needed = True
+            # This code only happens if the objects is
+            # not in the database yet. Otherwise it would
+            # have pk
+
+        super(Person, self).save(*args, **kwargs)
+
+        # Handle azure cases
+        self.image_id = face_detect.get_person_id(self.image_path)
+        self.image_id = create_profile.create_person()
+        create_enrollment.add_enrollment(self.recording_path)
+
+    def __str__(self):
+        string = "person_id: {}\n \
+                 speech_id: {} \n \
+                 image_id: {} \n \
+                 tags: {} \n \
+                 name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
+        return string
 
 
 class Data(models.Model):
@@ -20,15 +63,6 @@ class Data(models.Model):
 
     def __repr__(self):
         return self.__str__()
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            # This code only happens if the objects is
-            # not in the database yet. Otherwise it would
-            # have pk
-            self.get_tags()
-        super(Data, self).save(*args, **kwargs)
-
 
 
 class ImageData(Data):
@@ -50,12 +84,10 @@ class NoteData(Data):
     def __str__(self):
         return self.text
 
-class Tag(models.Model):
-    text = models.CharField(max_length=256)
 
 class Information(models.Model):
-    tags = models.ManyToManyField(Tag,related_name='information')
-    data = models.OneToOneField(Data,on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, related_name='information')
+    data = models.OneToOneField(Data, on_delete=models.CASCADE)
 
     def get_additional_tags(self):
         additional_tags = self.data.get_tags()
@@ -90,10 +122,19 @@ class Information(models.Model):
 
         return score  # Smaller is better
 
+    def save(self, *args, **kwargs):
+        tagging_needed = False
+        if not self.pk:
+            tagging_needed = True
+            # This code only happens if the objects is
+            # not in the database yet. Otherwise it would
+            # have pk
+
+        super(Information, self).save(*args, **kwargs)
+        self.get_additional_tags()
+
     def __str__(self):
         return str(self.data) + str(self.tags)
 
     def __repr__(self):
         return self.__str__()
-
-

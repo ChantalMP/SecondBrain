@@ -1,5 +1,8 @@
 from secondBrainBackend.models import Data, Information, Tag
 from apis.image_tagging.image_tagging import get_tags_for_image
+import apis.speaker_recognition.identify as identify_speech
+import apis.face_api.identify as identify_face
+import json
 
 
 def create_information(data: Data, tags=None):
@@ -57,7 +60,18 @@ def process_input(raw_data, informations, data_type='tag'):
     find_matching_infos(tags, informations)
 
 
-import os
+def identify_by_speech(recording):
+    text = identify_speech.identify(recording)
+    return json.loads(text)["processingResult"]["identifiedProfileId"]
+
+def identify_by_image(image):
+    identify_face.identify(image)
+
+def identify_by_tag(tag):
+    # TODO
+    pass
+
+# identify_by_image("apis/face_api/images/talle_test.jpg")
 
 # if __name__ == '__main__':
 #     from database import informations
@@ -72,3 +86,14 @@ import os
 #
 #     tags = 'dog'
 #     process_input(tags, informations)
+
+
+#
+# p = Person(recording='apis/speaker_recognition/audios/recording_testing.wav', \
+#            image='apis/face_api/images/IMG_2629.jpg', \
+#            tags=["Mum"], \
+#            name="dummy_name", \
+#            address="dummy-add", \
+#            phone=1234567)
+#
+# print(p.to_string())
