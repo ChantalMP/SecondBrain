@@ -29,18 +29,10 @@ class Person(models.Model):
     recording_path = models.CharField(max_length=256,null=True,blank=True)
 
     # TODO test this save method
-    def save(self, *args, **kwargs):
-        tagging_needed = False
-        if not self.pk:
-            tagging_needed = True
-            # This code only happens if the objects is
-            # not in the database yet. Otherwise it would
-            # have pk
-
+    def save(self, auto_tagging=False,*args, **kwargs):
         super(Person, self).save(*args, **kwargs)
 
-
-        if tagging_needed:
+        if auto_tagging:
             # Handle azure cases
             self.image_id = face_detect.get_person_id(self.image_path)
             self.speech_id = create_profile.create_person()
@@ -57,7 +49,42 @@ class Person(models.Model):
         return string
 
 
+class Information(models.Model):
+    tags = models.ManyToManyField(Tag, related_name='information')
+    # TODO This becomes foreign key, make sure it works correcly
+    # TODO TITLE and is also a tag
+    # TODO compare tags should also be tag
+
+    def get_additional_tags(self):
+        # TODO ITERATE OVER DATA
+        for d in self.data.all():
+            additional_tags = d.get_tags()
+
+            # TODO test this
+            # TODO make sure no dublicates are getting created
+            for additional_tag in additional_tags:
+                new_tag = Tag.objects.get_or_create(additional_tag)
+                self.tags.add(new_tag)
+
+
+    def save(self, auto_tagging=False,*args, **kwargs):
+
+        super(Information, self).save(*args, **kwargs)
+        if auto_tagging:
+            self.get_additional_tags()
+            self.save()
+
+    def __str__(self):
+        return str(self.data) + str(self.tags)
+
+    def __repr__(self):
+        return self.__str__()
+
+
+
 class Data(models.Model):
+    information = models.ForeignKey(Information, on_delete=models.CASCADE,related_name='data',null=True)
+
 
     @abstractmethod
     def get_tags(self):
@@ -67,8 +94,6 @@ class Data(models.Model):
     def __str__(self):
         pass
 
-    def __repr__(self):
-        return self.__str__()
 
 
 class ImageData(Data):
@@ -80,8 +105,12 @@ class ImageData(Data):
     def __str__(self):
         return self.path
 
+    def __repr__(self):
+        return self.path
+
 
 class NoteData(Data):
+    # TODO make area
     text = models.CharField(max_length=256)
 
     def get_tags(self):
@@ -90,62 +119,5 @@ class NoteData(Data):
     def __str__(self):
         return self.text
 
-
-class Information(models.Model):
-    tags = models.ManyToManyField(Tag, related_name='information')
-    # This becomes foreign key, make sure it works correcly
-    data = models.OneToOneField(Data, on_delete=models.CASCADE)
-    # TODO TITLE and is also a tag
-    # TODO compare tags should also be tag
-
-    def get_additional_tags(self):
-        additional_tags = self.data.get_tags()
-
-        # TODO test this
-        # TODO make sure no dublicates are getting created
-        for additional_tag in additional_tags:
-            new_tag = Tag.objects.get_or_create(additional_tag)
-            self.tags.add(new_tag)
-
-    def compare_tags(self, obj_tags):
-        # TODO be careful, obj_tags are now django models
-        # TODO create word embedding for these
-        # TODO generate embeddings
-        total_distance = 0.0
-        count = 0.0
-
-        self_embeddings = []
-        obj_embeddings = []
-
-        for self_embedding in self_embeddings:
-            for obj_embedding in obj_embeddings:
-                dist = np.linalg.norm(self_embedding - obj_embedding)
-                total_distance += dist
-                count += 1
-
-        try:
-            score = total_distance / count
-
-        except Exception as e:
-            return 100.0
-
-        return score  # Smaller is better
-
-    def save(self, *args, **kwargs):
-        tagging_needed = False
-        if not self.pk:
-            tagging_needed = True
-            # This code only happens if the objects is
-            # not in the database yet. Otherwise it would
-            # have pk
-
-        super(Information, self).save(*args, **kwargs)
-        if tagging_needed:
-            self.get_additional_tags()
-            self.save()
-
-    def __str__(self):
-        return str(self.data) + str(self.tags)
-
     def __repr__(self):
-        return self.__str__()
+        return self.text

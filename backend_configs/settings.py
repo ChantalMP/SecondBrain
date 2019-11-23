@@ -120,5 +120,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-images_storage_path = 'storage/images'
-recordings_storage_path = 'storage/recordings'
+IMAGES_STORAGE_PATH = 'storage/images'
+RECORDING_STORAGE_PATH = 'storage/recordings'

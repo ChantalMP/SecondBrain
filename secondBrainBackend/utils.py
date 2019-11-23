@@ -4,6 +4,8 @@ import apis.speaker_recognition.identify as identify_speech
 import apis.face_api.identify as identify_face
 import json
 
+import numpy as np
+
 
 def create_information(data: Data, tags=None):
     '''
@@ -70,6 +72,30 @@ def identify_by_image(image):
 def identify_by_tag(tag):
     # TODO
     pass
+
+def compare_tags(self, obj_tags):
+    # TODO be careful, obj_tags are now django models
+    # TODO create word embedding for these
+    # TODO generate embeddings
+    total_distance = 0.0
+    count = 0.0
+
+    self_embeddings = []
+    obj_embeddings = []
+
+    for self_embedding in self_embeddings:
+        for obj_embedding in obj_embeddings:
+            dist = np.linalg.norm(self_embedding - obj_embedding)
+            total_distance += dist
+            count += 1
+
+    try:
+        score = total_distance / count
+
+    except Exception as e:
+        return 100.0
+
+    return score  # Smaller is better
 
 # identify_by_image("apis/face_api/images/talle_test.jpg")
 

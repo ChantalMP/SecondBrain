@@ -15,7 +15,7 @@ from django.core.files.storage import FileSystemStorage
 
 from django.conf import settings
 
-from  secondBrainBackend.models import Person
+from  secondBrainBackend.models import Person,Information,ImageData,NoteData
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -79,14 +79,45 @@ class AddInformation(TemplateView):
     # TODO post
     def post(self, request, *args, **kwargs):
         tags = request.POST['tags']
+        title = request.POST['info_title']
+        try:
+            image = request.FILES['image']
+
+        except Exception as e:
+            image = None
+        text = request.POST['note']
+        tags = request.POST['tags']
+
         if ',' in tags:
             tags = tags.split(',')
-        else:
+        elif len(tags) > 0:
             tags = [tags]
+        else:
+            tags = []
+
+        random_name_prefix = random_name(10)
+
+        info = Information.objects.create()
+
+        if image is not None:
+            image_name = '{}.jpg'.format(random_name_prefix)
+            image_path = save_file(settings.IMAGES_STORAGE_PATH, image_name,image)
+
+            image_data = ImageData.objects.create(path=image_path)
+
+            info.data.add(image_data)
+
+        if len(text) > 0 :
+            note_data = NoteData.objects.create(text=text)
+
+            info.data.add(note_data)
 
 
+        for tag in tags:
+            info.tags.add(tag)
 
-        print(request.POST)
+
+        info.save(auto_tagging=True)
 
 
 class IdentifyPerson(TemplateView):
