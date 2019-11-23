@@ -26,7 +26,7 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def random_name(N):
+def random_name(N=20):
     return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
 
 
@@ -41,38 +41,71 @@ def save_file(folder, name, file):
 class AddPerson(TemplateView):
     template_name = 'add_person.html'
 
-    # TODO post
     def post(self, request, *args, **kwargs):
-        name = request.POST['name']
+        name = request.POST['your_name']
         phone = request.POST['phone']
-        image = request.POST['image']
-        address = request.POST['address']
+        address = request.POST['your_adress']
+        try:
+            image = request.FILES['image']
+
+        except Exception as e:
+            image = None
+
+        try:
+            recording = request.FILES['recording']
+
+        except Exception as e:
+            recording = None
+
         tags = request.POST['tags']
+
         if ',' in tags:
             tags = tags.split(',')
-        else:
+        elif len(tags) > 0:
             tags = [tags]
+        else:
+            tags = []
 
         recording = request.POST['recording']
-        random_name_prefix = random_name(10)
+        random_name_prefix = random_name()
 
         image_name = '{}.jpg'.format(random_name_prefix)
-        image_path = save_file(settings.images_storage_path, image)
 
-        recording_name = '{}.wav'.format(random_name_prefix)
-        image_path = save_file(settings.recordings_storage_path, recording)
 
-        person = Person.objects.create(name=name, phone=phone, image_path=image_path, address=address)
+        person = Person.objects.create(name=name, phone=phone,address=address)
 
         for tag in tags:
             person.tags.add(tag)
 
         person.save()
 
-        # TODO save recording with random name
-        # TODO save image in a certain location with random name
-        # TODO recording saving
-        # TODO here would be a call to generate a corresponding person in database
+
+        if image is not None:
+            image_name = '{}.jpg'.format(random_name_prefix)
+            image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name, image)
+            image_path = '{}/{}'.format(settings.IMAGES_STORAGE_PATH, image_name)
+
+            person.image_path = image_path
+
+            person.save()
+
+        if recording is not None:
+            recording_name = '{}.wav'.format(random_name_prefix)
+            recording_name = save_file(settings.RECORDING_STORAGE_PATH, recording_name, recording)
+            recording_path = '{}/{}'.format(settings.RECORDING_STORAGE_PATH, recording_name)
+
+            person.recording_path = recording_path
+
+            person.save()
+
+        for tag in tags:
+            new_tag, _ = Tag.objects.get_or_create(text=tag)
+
+            person.tags.add(new_tag)
+
+        person.save(auto_tagging=True)
+
+        return HttpResponse("Success!")
 
 
 class AddInformation(TemplateView):
@@ -96,7 +129,7 @@ class AddInformation(TemplateView):
         else:
             tags = []
 
-        random_name_prefix = random_name(10)
+        random_name_prefix = random_name()
 
         info = Information.objects.create()
 
