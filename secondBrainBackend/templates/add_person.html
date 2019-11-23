@@ -18,6 +18,11 @@
         <input id="your_adress" type="text" name="your_adress" value="{{ current_adress }}">
         <br>
 
+        <br>
+        <label for="your_phone">Your Phone: </label>
+        <br>
+        <input id="your_phone" type="text" name="your_phone" value="{{ current_phone }}">
+        <br>
 
         <br>
         <label for="tags">Enter some tags: </label>
@@ -28,8 +33,12 @@
         <br>
         <h4>Upload a picture:</h4>
         <input id="id_image" type="file" class="" name="image">
-        <br>
-        <br>
+        <br> <br>
+
+        <h4> Choose a recording on your phone (*.wav): </h4>
+        <input id="id_audio" type="file" class="" name="audio">
+        <br> <br>
+
         <input type="submit" value="Add Person">
     </form>
 </body>
