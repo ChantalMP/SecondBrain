@@ -47,20 +47,10 @@ class Person(models.Model):
             self.save()
 
     def __str__(self):
-        string = "person_id: {}\n \
-                 speech_id: {} \n \
-                 image_id: {} \n \
-                 tags: {} \n \
-                 name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
-        return string
+        return self.name
 
     def __repr__(self):
-        string = "person_id: {}\n \
-                         speech_id: {} \n \
-                         image_id: {} \n \
-                         tags: {} \n \
-                         name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
-        return string
+        return self.name
 
 
 class Information(models.Model):
