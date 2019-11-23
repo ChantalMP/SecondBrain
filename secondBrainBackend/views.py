@@ -348,6 +348,32 @@ class SearchTags(TemplateView):
             return HttpResponse(template.render({}, request))
 
 
+class ShowPersons(TemplateView):
+    template_name = 'show_persons.html'
+
+    def get(self, request, *args, **kwargs):
+        template = loader.get_template('show_persons.html')
+        persons = []
+        for elem in Person.objects.all():
+            person=elem
+            person_dict = {}
+            person_dict['name'] = person.name
+
+            if person.image_path is not None:
+                image_path = person.image_path.split('/')
+                image_path = image_path[2] + '/' + image_path[3]
+                person_dict['image_path'] = image_path
+            else:
+                person_dict['image_path'] = None
+
+            person_dict['address'] = person.address
+            person_dict['phone'] = person.phone
+
+            persons.append(person_dict)
+        context = {"persons":persons}
+        return HttpResponse(template.render(context, request))
+
+
 class ResultTags(TemplateView):
     template_name = 'result_tags.html'
 

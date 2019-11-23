@@ -27,4 +27,5 @@ urlpatterns = [
     path('results_person/',views.ResultsPerson.as_view()),
     path('search_tags/',views.SearchTags.as_view()),
     path('result_tags/',views.ResultTags.as_view()),
+    path('show_persons/',views.ShowPersons.as_view()),
 ]
