@@ -8,9 +8,9 @@ person_group_id = 'persondatabase'
 
 key = '15262392d8164ba3bb431da6b0c11f42'
 
-def identify():
+def identify(image):
     url = "https://westus.api.cognitive.microsoft.com/face/v1.0/identify"
-    person_id = get_person_id("apis/face_api/images/talle_test.jpg")
+    person_id = get_person_id(image)
     querystring = {}
     body = r'{"personGroupId":"persondatabase", "faceIds":["' + person_id + r'"], "maxNumOfCandidatesReturned":1}'
     code, text = send_json_post_api_requests(url, querystring, key, body)
@@ -39,5 +39,3 @@ def add_image_to_person(person_id, image):
 #create_peson("Chantal") 8186f04a-dba0-4dd9-86ca-32f961b17631
 
 #add_image_to_person("588ca96a-8493-47c5-8b28-d656ec63cc9b", "apis/face_api/images/ege2.jpg")
-
-#identify()

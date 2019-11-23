@@ -22,5 +22,3 @@ def identify(recording):
         status = json.loads(text)['status']
         if status == 'succeeded':
             return text
-
-print(identify("apis/speaker_recognition/audios/talle_test.wav"))
