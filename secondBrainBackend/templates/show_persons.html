@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search information</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
+</head>
+<body>
+
+<!-- PRE LOADER -->
+<section class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate"></span>
+    </div>
+</section>
+<section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <h2> Persons </h2>
+
+    {% if persons %}
+    Here are your {{ persons|length }} person matches:
+    {% for e in persons %}
+      <h3> {{ e.name }} </h3>
+      {% if e.image_path %}
+        <img width="100%" src="{% static e.image_path %}" alt="My image">
+      {% endif %}
+      <br>
+      <h3> {{ e.address }} </h3>
+      <br>
+      <h3> {{ e.phone }} </h3>
+      <hr>
+    {% endfor %}
+    {% else %}
+       We couldn't find any persons.
+    {% endif %}
+
+    <br>
+    <br>
+    <button type="button" class="btn section-btn smoothScroll" onclick=location.href="/">
+              Home
+    </button>
+    </form>
+    </div>
+</section>
+
+<!-- SCRIPTS -->
+    {% load static %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+</body>
+</html>

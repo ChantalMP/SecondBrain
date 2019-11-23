@@ -113,8 +113,3 @@ def identify_by_speech(recording):
 
 def identify_by_image(image):
     identify_face.identify(image)
-
-
-def identify_by_tag(tag):
-    # TODO
-    pass
