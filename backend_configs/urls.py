@@ -23,5 +23,7 @@ urlpatterns = [
     path('add_person/',views.AddPerson.as_view()),
     path('add_information/',views.AddInformation.as_view()),
     path('identify_person/',views.IdentifyPerson.as_view()),
-    path('search_information/',views.SearchInformation.as_view())
+    path('results_person/',views.ResultsPerson.as_view()),
+    path('search_tags/',views.SearchTags.as_view()),
+    path('result_tags/',views.ResultTags.as_view()),
 ]
