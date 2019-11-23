@@ -69,14 +69,13 @@ class AddPerson(TemplateView):
 
         random_name_prefix = random_name()
 
-        person = Person.objects.create(name=name, phone=phone,address=address)
+        person = Person.objects.create(name=name, phone=phone, address=address)
 
         for tag in tags:
             new_tag, _ = Tag.objects.get_or_create(text=tag)
             person.tags.add(new_tag)
 
         person.save()
-
 
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
@@ -194,11 +193,10 @@ class SearchTags(TemplateView):
     template_name = 'search_tags.html'
 
     def post(self, request, *args, **kwargs):
-
-        #TODO first create embeddings, then search in our database
+        # TODO first create embeddings, then search in our database
 
         template = loader.get_template('result_tags.html')
-        list = [{"title":"title1", "text":"text1"}, {"title":"title2", "text":"text2"}, {"title":"title3", "text":"text3"}]
+        list = [{"title": "title1", "text": "text1"}, {"title": "title2", "text": "text2"}, {"title": "title3", "text": "text3"}]
         context = {"list": list}
         return HttpResponse(template.render(context, request))
 
