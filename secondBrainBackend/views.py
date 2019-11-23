@@ -17,7 +17,8 @@ from django.conf import settings
 
 from secondBrainBackend.models import Person, Information, Data, Tag
 
-from apis.face_api.identify import identify
+import apis.face_api.identify as faceAPI
+import apis.speaker_recognition.identify as speechAPI
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -162,6 +163,21 @@ class IdentifyPerson(TemplateView):
             image = None
         info = Information.objects.create()
 
+        try:
+            recording = request.FILES['audio']
+
+        except Exception as e:
+            recording = None
+
+        tags = request.POST['tags']
+
+        if ',' in tags:
+            tags = tags.split(',')
+        elif len(tags) > 0:
+            tags = [tags]
+        else:
+            tags = []
+
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
             image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name, image)
@@ -171,9 +187,17 @@ class IdentifyPerson(TemplateView):
 
             info.data.add(image_data)
 
-            image_id = identify(image_path)
+            image_id = faceAPI.identify(image_path)
+            person_name = Person.objects.get(image_id=image_id).name
 
-        person_name = Person.objects.get(image_id=image_id).name
+        elif recording is not None:
+            recording_name = '{}.wav'.format(random_name_prefix)
+            recording_name = save_file(settings.RECORDING_STORAGE_PATH, recording_name, recording)
+            recording_path = '{}/{}'.format(settings.RECORDING_STORAGE_PATH, recording_name)
+
+            audio_id = speechAPI.identify(recording_path)
+            person_name = Person.objects.get(audio_id=audio_id).name
+
 
         template = loader.get_template('results_person.html')
         context = {"name":person_name
