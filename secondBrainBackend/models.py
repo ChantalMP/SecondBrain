@@ -24,7 +24,7 @@ class Tag(models.Model):
 
 
 class Person(models.Model):
-    # TODO name should be tag
+
     speech_id = models.CharField(max_length=256,null=True,blank=True)
     image_id = models.CharField(max_length=256,null=True,blank=True)
     image_path = models.CharField(max_length=256,null=True,blank=True)
