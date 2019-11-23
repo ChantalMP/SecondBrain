@@ -54,6 +54,14 @@ class Person(models.Model):
                  name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
         return string
 
+    def __repr__(self):
+        string = "person_id: {}\n \
+                         speech_id: {} \n \
+                         image_id: {} \n \
+                         tags: {} \n \
+                         name: {}\n ".format(self.person_id, self.speech_id, self.image_id, self.tags, self.name)
+        return string
+
 
 class Information(models.Model):
     tags = models.ManyToManyField(Tag, related_name='information')

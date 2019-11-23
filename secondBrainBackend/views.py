@@ -43,7 +43,7 @@ class AddPerson(TemplateView):
 
     def post(self, request, *args, **kwargs):
         name = request.POST['your_name']
-        phone = request.POST['phone']
+        phone = request.POST['your_phone']
         address = request.POST['your_adress']
         try:
             image = request.FILES['image']
@@ -52,7 +52,7 @@ class AddPerson(TemplateView):
             image = None
 
         try:
-            recording = request.FILES['recording']
+            recording = request.FILES['audio']
 
         except Exception as e:
             recording = None
@@ -66,16 +66,13 @@ class AddPerson(TemplateView):
         else:
             tags = []
 
-        recording = request.POST['recording']
         random_name_prefix = random_name()
-
-        image_name = '{}.jpg'.format(random_name_prefix)
-
 
         person = Person.objects.create(name=name, phone=phone,address=address)
 
         for tag in tags:
-            person.tags.add(tag)
+            new_tag, _ = Tag.objects.get_or_create(text=tag)
+            person.tags.add(new_tag)
 
         person.save()
 
@@ -97,11 +94,6 @@ class AddPerson(TemplateView):
             person.recording_path = recording_path
 
             person.save()
-
-        for tag in tags:
-            new_tag, _ = Tag.objects.get_or_create(text=tag)
-
-            person.tags.add(new_tag)
 
         person.save(auto_tagging=True)
 
