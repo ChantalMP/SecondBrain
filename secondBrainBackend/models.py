@@ -16,6 +16,12 @@ import numpy as np
 class Tag(models.Model):
     text = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.text
+
+    def __repr__(self):
+        return self.text
+
 
 class Person(models.Model):
     # TODO name should be tag
