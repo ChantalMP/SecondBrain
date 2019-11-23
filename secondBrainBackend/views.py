@@ -21,11 +21,9 @@ class AddPerson(TemplateView):
     template_name = 'add_person.html'
 
     # TODO post
-    # def post(self, request, *args, **kwargs):
-    #     form = self.form_class(request.POST)
-    #     if form.is_valid():
-    #         # <process form cleaned data>
-    #         return HttpResponseRedirect('/success/')
+    def post(self, request, *args, **kwargs):
+        name = request.POST['your_name']
+        # TODO here would be a call to generate a corresponding person in database
 
 class AddInformation(TemplateView):
     template_name = 'add_information.html'
