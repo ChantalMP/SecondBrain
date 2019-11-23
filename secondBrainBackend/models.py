@@ -19,14 +19,14 @@ class Tag(models.Model):
 
 class Person(models.Model):
     # TODO name should be tag
-    speech_id = models.CharField(max_length=256)
-    image_id = models.CharField(max_length=256)
-    image_path = models.CharField(max_length=256)
+    speech_id = models.CharField(max_length=256,null=True,blank=True)
+    image_id = models.CharField(max_length=256,null=True,blank=True)
+    image_path = models.CharField(max_length=256,null=True,blank=True)
     tags = models.ManyToManyField(Tag, related_name='person')
-    name = models.CharField(max_length=256)
-    address = models.CharField(max_length=256)
-    phone = models.CharField(max_length=256)
-    recording_path = models.CharField(max_length=256)
+    name = models.CharField(max_length=256,null=True,blank=True)
+    address = models.CharField(max_length=256,null=True,blank=True)
+    phone = models.CharField(max_length=256,null=True,blank=True)
+    recording_path = models.CharField(max_length=256,null=True,blank=True)
 
     # TODO test this save method
     def save(self, *args, **kwargs):
