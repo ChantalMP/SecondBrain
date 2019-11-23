@@ -12,7 +12,7 @@ url = "https://westus.api.cognitive.microsoft.com/spid/v1.0/identify?identificat
 def identify(recording):
 
     header = send_binary_api_requests(url, {}, '24e9de72f0cc4a27a3d2b4afd43f755f', recording)
-    operation_location = header[0]['Operation-Location']
+    operation_loceditation = header[0]['Operation-Location']
     timeout = 20
     querystring = r'{"identificationProfileIds:"}'+profile_ids
     while timeout >= 0:

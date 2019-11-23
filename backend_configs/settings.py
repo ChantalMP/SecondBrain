@@ -119,3 +119,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+IMAGES_STORAGE_PATH = 'storage/images'
+RECORDING_STORAGE_PATH = 'storage/recordings'
