@@ -15,7 +15,7 @@ def identify(recording):
     print(header)
     operation_location = header[0]['Operation-Location']
     timeout = 20
-    querystring = r'{"identificationProfileIds:"}'+profile_ids
+    querystring = {}
     while timeout >= 0:
         timeout -= 1
         sleep(1)

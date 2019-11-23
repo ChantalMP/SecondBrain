@@ -42,7 +42,7 @@ class Person(models.Model):
             self.image_id = face_identify.create_peson(self.name)
             face_identify.add_image_to_person(self.image_id, self.image_path)
             self.speech_id = create_profile.create_person()
-            create_enrollment.add_enrollment(self.recording_path,self.speech_id)
+            create_enrollment.add_enrollment(self.recording_path, self.speech_id)
 
             self.save()
 

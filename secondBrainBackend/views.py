@@ -371,7 +371,7 @@ class ShowPersons(TemplateView):
             person_dict['tags'] = [elem.text for elem in person.tags.all()]
 
             persons.append(person_dict)
-        context = {"persons":persons}
+        context = {"persons" : persons}
         return HttpResponse(template.render(context, request))
 
 
