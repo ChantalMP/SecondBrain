@@ -19,6 +19,11 @@ from secondBrainBackend.models import Person, Information, Data, Tag
 
 from apis.face_api.identify import identify
 
+from apis.image_tagging.image_tagging import get_tags_for_image
+from apis.text_api.sendText import get_tags_for_text
+
+from secondBrainBackend.utils import get_matching_information
+
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
     template = loader.get_template('index.html')
@@ -123,7 +128,7 @@ class AddInformation(TemplateView):
 
         random_name_prefix = random_name()
 
-        info = Information.objects.create()
+        info = Information.objects.create(title=title)
 
         if image is not None:
             image_name = '{}.jpg'.format(random_name_prefix)
@@ -197,9 +202,60 @@ class SearchTags(TemplateView):
     def post(self, request, *args, **kwargs):
         # TODO first create embeddings, then search in our database
 
+        all_tags = []
+
+        tags = (request.POST['tags'])
+        if ',' in tags:
+            tags = tags.split(',')
+            all_tags += tags
+        elif len(tags) > 0:
+            all_tags.append(tags)
+
+        query = request.POST['query']
+        if len(query) > 0:
+            all_tags += get_tags_for_text(query)
+
+        try:
+            image = request.FILES['image']
+            random_name_prefix = random_name()
+            image_name = '{}.jpg'.format(random_name_prefix)
+            image_name = save_file(settings.IMAGES_STORAGE_PATH, image_name, image)
+            image_path = '{}/{}'.format(settings.IMAGES_STORAGE_PATH, image_name)
+            all_tags += get_tags_for_image(image_path)
+        except Exception as e:
+            image = None
+
+        result_list = get_matching_information(all_tags)
+
+        informations = [elem[0] for elem in result_list]
+
+        parsed = []
+
+        for information in informations:
+            information_dict = {}
+            information_dict['title'] = information.title
+            datas = []
+
+            for data in information.data.all():
+                data_dict = {}
+                if data.path is not None:
+                    image_path = data.path.split('/')
+                    image_path = image_path[2] + '/' + image_path[3]
+                    data_dict['image_path'] = image_path
+                else:
+                    data_dict['image_path'] = None
+                data_dict['text'] = data.text
+
+                datas.append(data_dict)
+
+            information_dict['datas'] = datas
+
+            parsed.append(information_dict)
+
+
+
         template = loader.get_template('result_tags.html')
-        list = [{"title": "title1", "text": "text1"}, {"title": "title2", "text": "text2"}, {"title": "title3", "text": "text3"}]
-        context = {"list": list}
+        context = {"results": parsed}
         return HttpResponse(template.render(context, request))
 
 
