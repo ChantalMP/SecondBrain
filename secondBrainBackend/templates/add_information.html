@@ -8,15 +8,15 @@
     <h2> Add information</h2>
     <form action="/add_information/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
-    <label for="info_title">Title: </label>
+    <h4 for="info_title">Title: </h4>
     <input id="info_title" type="text" name="info_title" value="{{ info_title }}">
     <br>
 
-    <label for="note">Enter a note: </label>
-    <input id="note" type="text" name="note" value="{{ note }}">
+    <h4 for="note">Enter a note: </h4>
+    <textarea id="note" type="text" name="note" value="{{ note }}"></textarea>
     <br>
 
-    <label for="tags">Enter some tags: </label>
+    <h4 for="tags">Enter some tags: </h4>
     <input id="tags" type="text" name="tags" value="{{ tags }}">
     <br>
 

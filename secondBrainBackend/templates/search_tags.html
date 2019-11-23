@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Tags</title>
+    <title>Search information</title>
 </head>
 <body>
-    Search Tags
+    <h2> Add information</h2>
+    <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+    <h4 for="query">Ask me something: </h4>
+    <input id="query" type="text" name="query" value="{{ info_title }}">
+    <br>
+
+    <h4 for="tags">Search for tags: </h4>
+    <input id="tags" type="text" name="tags" value="{{ info_title }}">
+    <br>
+
+    <h4>Upload a picture:</h4>
+    <input id="id_image" type="file" class="" name="image">
+    <br>
+    <br>
+    <input type="submit" value="Search">
+    </form>
 </body>
 </html>
