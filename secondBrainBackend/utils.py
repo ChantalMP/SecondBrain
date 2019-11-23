@@ -21,9 +21,15 @@ def create_information(data: Data, tags=None):
     information.get_additional_tags()
     return information
 
-nlp = spacy.load("en_core_web_md")
+# Lazy loading, only when needed load for the first time
+nlp = None
+#nlp = spacy.load("en_core_web_md") # TODO activate for presentation
 
 def get_matching_information(tags):
+    global nlp
+    if nlp is None:
+        nlp = spacy.load("en_core_web_md")
+
     results = {}
 
     tokens = nlp(' '.join(tags))
@@ -88,32 +94,3 @@ def identify_by_image(image):
 def identify_by_tag(tag):
     # TODO
     pass
-
-
-
-# identify_by_image("apis/face_api/images/talle_test.jpg")
-
-# if __name__ == '__main__':
-#     from database import informations
-#
-#     note_data = NoteData('How does my dog look like? And how does my cat look like')
-#     informations.append(create_information(note_data))
-#
-#     image_data = ImageData('apis/face_api/images/IMG_2629.jpg')
-#     informations.append(create_information(image_data))
-#
-#     pickle.dump(informations, open("database/informations.p", "wb"))
-#
-#     tags = 'dog'
-#     process_input(tags, informations)
-
-
-#
-# p = Person(recording='apis/speaker_recognition/audios/recording_testing.wav', \
-#            image='apis/face_api/images/IMG_2629.jpg', \
-#            tags=["Mum"], \
-#            name="dummy_name", \
-#            address="dummy-add", \
-#            phone=1234567)
-#
-# print(p.to_string())

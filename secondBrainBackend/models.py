@@ -34,7 +34,6 @@ class Person(models.Model):
     phone = models.CharField(max_length=256,null=True,blank=True)
     recording_path = models.CharField(max_length=256,null=True,blank=True)
 
-    # TODO test this save method
     def save(self, auto_tagging=False,*args, **kwargs):
         super(Person, self).save(*args, **kwargs)
 
@@ -44,7 +43,6 @@ class Person(models.Model):
             face_identify.add_image_to_person(self.image_id, self.image_path)
             self.speech_id = create_profile.create_person()
             create_enrollment.add_enrollment(self.recording_path,self.speech_id)
-            # TODO
 
             self.save()
 
@@ -68,17 +66,11 @@ class Person(models.Model):
 class Information(models.Model):
     title = models.CharField(max_length=256, null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='information')
-    # TODO This becomes foreign key, make sure it works correcly
-    # TODO TITLE and is also a tag
-    # TODO compare tags should also be tag
 
     def get_additional_tags(self):
-        # TODO ITERATE OVER DATA
         for d in self.data.all():
             additional_tags = d.get_tags()
 
-            # TODO test this
-            # TODO make sure no dublicates are getting created
             for additional_tag in additional_tags:
                 new_tag,_ = Tag.objects.get_or_create(text=additional_tag)
                 self.tags.add(new_tag)
@@ -101,7 +93,6 @@ class Information(models.Model):
 
 class Data(models.Model):
     information = models.ForeignKey(Information, on_delete=models.CASCADE,related_name='data',null=True)
-    # TODO instead of using ImageData and NoteData, do everything here
     data_type = models.CharField(max_length=256) # image or text
     path = models.CharField(max_length=256,null=True,blank=True)
     text = models.CharField(max_length=256,null=True,blank=True)
