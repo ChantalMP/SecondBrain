@@ -120,5 +120,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-IMAGES_STORAGE_PATH = 'storage/images'
-RECORDING_STORAGE_PATH = 'storage/recordings'
+IMAGES_STORAGE_PATH = 'secondBrainBackend/static/images'
+RECORDING_STORAGE_PATH = 'secondBrainBackend/static/recordings'
