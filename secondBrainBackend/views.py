@@ -138,7 +138,9 @@ class ResultsPerson(TemplateView):
 
     # TODO post or get
     def get(self, request, *args, **kwargs):
-        print(request.GET)
+        template = loader.get_template('results_person.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
 
 class SearchTags(TemplateView):
     template_name =  'search_tags.html'
@@ -155,4 +157,6 @@ class ResultTags(TemplateView):
     template_name =  'result_tags.html'
 
     def get(self, request, *args, **kwargs):
-        print(request.GET)
+        template = loader.get_template('result_tags.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
