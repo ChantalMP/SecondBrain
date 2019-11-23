@@ -20,6 +20,7 @@ from secondBrainBackend import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index),
     path('add_person/',views.AddPerson.as_view()),
     path('add_information/',views.AddInformation.as_view()),
     path('identify_person/',views.IdentifyPerson.as_view()),
