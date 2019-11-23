@@ -42,7 +42,8 @@ class Person(models.Model):
             # Handle azure cases
             self.image_id = face_detect.get_person_id(self.image_path)
             self.speech_id = create_profile.create_person()
-            create_enrollment.add_enrollment(self.recording_path)
+            create_enrollment.add_enrollment(self.recording_path,self.speech_id)
+            # TODO
 
             self.save()
 
