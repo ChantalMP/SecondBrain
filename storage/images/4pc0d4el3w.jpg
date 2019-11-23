@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "c680c33d-1d2c-4aed-a41a-3cb96b624db1",
+		"name": "SecondBrain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createEnrollment",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "24e9de72f0cc4a27a3d2b4afd43f755f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Ocp-Apim-Subscription-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/octet-stream",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/home/marcelk/Downloads/Aufnahme_3.wav"
+					}
+				},
+				"url": {
+					"raw": "https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfiles/0e80af90-bede-4006-932b-c3b3a2f64994/enroll?",
+					"protocol": "https",
+					"host": [
+						"westus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"spid",
+						"v1.0",
+						"identificationProfiles",
+						"0e80af90-bede-4006-932b-c3b3a2f64994",
+						"enroll"
+					],
+					"query": [
+						{
+							"key": "shortAudio",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "identificationProfileId",
+							"value": "0e80af90-bede-4006-932b-c3b3a2f64994",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProfile",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "24e9de72f0cc4a27a3d2b4afd43f755f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Ocp-Apim-Subscription-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfiles",
+					"protocol": "https",
+					"host": [
+						"westus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"spid",
+						"v1.0",
+						"identificationProfiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "identify",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "24e9de72f0cc4a27a3d2b4afd43f755f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Ocp-Apim-Subscription-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/octet-stream",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/home/marcelk/Downloads/Aufnahme_6.wav"
+					}
+				},
+				"url": {
+					"raw": "https://westus.api.cognitive.microsoft.com/spid/v1.0/identify?identificationProfileIds=0e80af90-bede-4006-932b-c3b3a2f64994&shortAudio=true",
+					"protocol": "https",
+					"host": [
+						"westus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"spid",
+						"v1.0",
+						"identify"
+					],
+					"query": [
+						{
+							"key": "identificationProfileIds",
+							"value": "0e80af90-bede-4006-932b-c3b3a2f64994"
+						},
+						{
+							"key": "shortAudio",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createProfile",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "24e9de72f0cc4a27a3d2b4afd43f755f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Ocp-Apim-Subscription-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfiles",
+					"protocol": "https",
+					"host": [
+						"westus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"spid",
+						"v1.0",
+						"identificationProfiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOperation",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "24e9de72f0cc4a27a3d2b4afd43f755f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Ocp-Apim-Subscription-Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://westus.api.cognitive.microsoft.com/spid/v1.0/operations/2ef0ad66-8bfa-4498-8dfd-d8e6577cc7c5",
+					"protocol": "https",
+					"host": [
+						"westus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"spid",
+						"v1.0",
+						"operations",
+						"2ef0ad66-8bfa-4498-8dfd-d8e6577cc7c5"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
