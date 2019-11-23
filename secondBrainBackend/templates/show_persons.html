@@ -24,11 +24,12 @@
     {% if persons %}
     Here are your {{ persons|length }} person matches:
     {% for e in persons %}
+        <h2> {{ e.name }} </h2>
     <img src="{% static  e.image_path  %}" alt="My image" width="100%">
         <h3> <font size="+2"> <pre>Phone: {{ e.phone }}</pre> </font> </h3>
         <h3> <font size="+2"> <pre>Address: {{ e.address }}</pre> </font></h3>
         <h3> <font size="+2"><pre>Tags: {% for tag in e.tags %} {{tag}}{% endfor %}</pre></font></h3>
-
+        <hr> 
     {% endfor %}
     {% else %}
        We couldn't find any persons.
