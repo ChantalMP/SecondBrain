@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Search information</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
@@ -27,7 +28,7 @@
       <h3> {{ e.title }} </h3>
       {% for d in e.datas %}
           {% if d.image_path %}
-            <img width="500" src="{% static d.image_path %}" alt="My image">
+            <img width="100%" src="{% static d.image_path %}" alt="My image">
           {% endif %}
           <br>
           {% if d.text %}
@@ -46,7 +47,7 @@
     {% for e in results_persons %}
       <h3> {{ e.name }} </h3>
       {% if e.image_path %}
-        <img width="500" src="{% static e.image_path %}" alt="My image">
+        <img width="100%" src="{% static e.image_path %}" alt="My image">
       {% endif %}
       <br>
       <h3> {{ e.address }} </h3>

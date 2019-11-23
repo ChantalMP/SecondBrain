@@ -22,16 +22,9 @@ def create_information(data: Data, tags=None):
     return information
 
 
-# Lazy loading, only when needed load for the first time
-nlp = None
-
-
-# nlp = spacy.load("en_core_web_md") # TODO activate for presentation
+nlp = spacy.load("en_core_web_md")
 
 def get_matching_information(tags, only_persons=False):
-    global nlp
-    if nlp is None:
-        nlp = spacy.load("en_core_web_md")
 
     results = {}
 

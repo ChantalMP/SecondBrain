@@ -5,6 +5,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Results Person</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
@@ -23,7 +24,7 @@
     <h2> Resulting person </h2>
     <h4> Name {{ name }} </h4>
     <br>
-    <img src="{% static  image_path  %}" alt="My image">
+    <img src="{% static  image_path  %}" alt="My image" width="100%" >
     <h4> Phone: {{ phone }} </h4> <br>
     <h4> Address: {{ address }} </h4> <br>
     <h4> Tags: {{ tags }} </h4> <br>
