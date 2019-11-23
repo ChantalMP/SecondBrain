@@ -143,14 +143,16 @@ class ResultsPerson(TemplateView):
 class SearchTags(TemplateView):
     template_name =  'search_tags.html'
     def post(self, request, *args, **kwargs):
-        print(request.POST)
 
-    # TODO post or get
+        #TODO first create embeddings, then search in our database
+
+        template = loader.get_template('result_tags.html')
+        list = [{"title":"title1", "text":"text1"}, {"title":"title2", "text":"text2"}, {"title":"title3", "text":"text3"}]
+        context = {"list": list}
+        return HttpResponse(template.render(context, request))
 
 class ResultTags(TemplateView):
     template_name =  'result_tags.html'
 
     def get(self, request, *args, **kwargs):
         print(request.GET)
-
-    # TODO post or get

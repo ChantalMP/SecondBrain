@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Result Tags</title>
+    <title>Search information</title>
 </head>
 <body>
-   Result Tags
+    <h2> Add information</h2>
+    <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+    {% if list %}
+    Here are your {{ list|length }} most important matches:
+    {% for e in list %}
+      <h3> {{ e.title }} </h3>
+      <td> {{ e.text }} </td>
+      <hr>
+    {% endfor %}
+    {% else %}
+       We couldn't find any matches.
+    {% endif %}
+    </form>
 </body>
 </html>
