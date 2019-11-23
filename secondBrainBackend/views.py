@@ -208,7 +208,6 @@ class ResultsPerson(TemplateView):
     
     template_name = 'results_person.html'
 
-    # TODO post or get
     def get(self, request, *args, **kwargs):
         template = loader.get_template('results_person.html')
         context = {}
@@ -219,7 +218,6 @@ class SearchTags(TemplateView):
     template_name = 'search_tags.html'
 
     def post(self, request, *args, **kwargs):
-        # TODO first create embeddings, then search in our database
 
         all_tags = []
 
