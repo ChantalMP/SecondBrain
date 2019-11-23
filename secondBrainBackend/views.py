@@ -31,24 +31,35 @@ class AddInformation(TemplateView):
     template_name = 'add_information.html'
 
     # TODO post
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
 
 
 class IdentifyPerson(TemplateView):
     template_name = 'identify_person.html'
 
     # TODO post or get
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
 
 class ResultsPerson(TemplateView):
     template_name =  'results_person.html'
 
     # TODO post or get
+    def get(self, request, *args, **kwargs):
+        print(request.GET)
 
 class SearchTags(TemplateView):
     template_name =  'search_tags.html'
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
 
     # TODO post or get
 
 class ResultTags(TemplateView):
     template_name =  'result_tags.html'
+
+    def get(self, request, *args, **kwargs):
+        print(request.GET)
 
     # TODO post or get
