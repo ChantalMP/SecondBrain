@@ -335,7 +335,7 @@ class SearchTags(TemplateView):
 
                     person_dict['address'] = person.address
                     person_dict['phone'] = person.phone
-
+                    person_dict['tags'] = [elem.text for elem in person.tags.all()]
                     parsed_persons.append(person_dict)
 
             template = loader.get_template('result_tags.html')

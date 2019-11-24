@@ -23,7 +23,7 @@
     <form action="/search_tags/" method="post" enctype="multipart/form-data">{% csrf_token %}
 
     {% if results_informations %}
-    Here are your {{ results_informations|length }} most important information matches:
+    Here are your most important information matches:
     {% for e in results_informations %}
       <h2> {{ e.title }} </h2>
       {% for d in e.datas %}
@@ -43,13 +43,14 @@
 
     <br>
     {% if results_persons %}
-    Here are your {{ results_persons|length }} most important person matches:
+    Here are your most important person matches:
     {% for e in results_persons %}
         <h2> {{ e.name }} </h2>
         <br>
         <img src="{% static  e.image_path  %}" alt="My image" width="100%">
         <h3> <font size="+2"> <pre>Phone: {{ e.phone }}</pre> </font> </h3>
         <h3> <font size="+2"> <pre>Address: {{ e.address }}</pre> </font></h3>
+        <h3> <font size="+2"><pre>Tags: {% for tag in e.tags %} {{tag}}{% endfor %}</pre></font></h3>
         <hr>
     {% endfor %}
     {% else %}
