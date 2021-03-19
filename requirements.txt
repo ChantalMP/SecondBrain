@@ -1,6 +1,6 @@
 requests
 numpy
-Django==2.2.7
+Django==2.2.18
 djangorestframework
 spacy
 
